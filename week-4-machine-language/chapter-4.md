@@ -180,16 +180,44 @@ two syntax variations for the same semantics:  <img src="C:\Users\henri\AppData\
 <u>c-instructions</u>
 
 * symbol syntax `dest=comp;jump`
-
 * binary syntax `1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3` - zero specifies that it is an a-instruction 
-
   * opcode 1 shows it is a c-instruction 
   * two one's not used 
   * a - c6 - which computation do i want ?
   * d - destination
   * j - jump condition 
 
-  <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803183109077.png" alt="image-20200803183109077" style="zoom:50%;" /> <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803183216211.png" alt="image-20200803183216211" style="zoom:50%;" /><img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803183121870.png" alt="image-20200803183121870" style="zoom:50%;" />
+<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803183306960.png" alt="image-20200803183306960" style="zoom:70%;" />
+
+
+
+ ## 5. Input / output devices 
+
+<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803183910969.png" alt="image-20200803183910969" style="zoom:50%;" />
+
+we either get data from or display data to the user 
+
+<u>How to control a display via bits</u>
+
+<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803184132476.png" alt="image-20200803184132476" style="zoom:70%;" />
+
+* the **screen memory map** is the reference for our display every x ms the screen will refresh based upon values found in the screen memory map 
+
+<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803185146553.png" alt="image-20200803185146553" style="zoom:67%;" />
+
+* we have a total of 131072 pixels 
+* and 8192 registers of 16bits also gives us 131072 values to work with 
+
+
+
+* we can only access memory in busses of 16 bits not just one bit - read write will always be 16 bit operations
+* busses 0 to 31 represent the top line of our display 
+
+![image-20200803185247242](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803185247242.png)
+
+![image-20200803185508640](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200803185508640.png)
+
+* 8k chip will represent our screen memory map and this is part of the larger data memory map 
 
 
 
