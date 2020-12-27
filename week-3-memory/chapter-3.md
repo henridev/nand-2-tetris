@@ -63,30 +63,22 @@ at any point in time T a dff will output the value that was in at time T-1. Look
 
 **💿 from remembering a bit to remembering everything**
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719054617922.png" alt="image-20200719054617922" style="zoom:50%;" />
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609080077/memory-Page-4_vomtfu.png" width=500 />
 
 we will combine remembering info with our dff and manipulating this with our combinatorial logic 
 
-**💿 register** ➡️  🥅 remember input forever 🥅
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719054906718.png" alt="image-20200719054906718" style="zoom:50%;" />
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719055437503.png" alt="image-20200719055437503" style="zoom:50%;" />
+**💿 register** ➡️ implementation with DFF that will remember input forever 
 
-➡️ we have an inputbit and loadbit coming in. if loadbit is 1 then we want to remember inputbit at that T time.
-➡️ if loadbit becomes 0 we just remember the last inputbit it got for infinity
+```
+if(load === 1) out[t] = in[t-1]
+else if(load === 0) out[t] = out[t-1]
+```
 
-how can this be implemented?
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609083325/memory-Page-5_hyjyr7.png" width=600/>
 
-naïve approach is: take the output we now have and feed it back as input 
 
-good approach: we know the mux where we have load as our selector
-in on T-1 gets selected if selector = 1 (load in new state)
-out on T-1 gets selected if selector = 0 (keep state)
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719055755101.png" alt="image-20200719055755101" style="zoom:50%;" />
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719060422553.png" alt="image-20200719060422553" style="zoom:33%;" />
 
 differences DFF and register
 
@@ -95,55 +87,51 @@ differences DFF and register
 
 ## 3. Memory units
 
-take a 1bit register and put them next to each other ➡️ 16 bit register 
-**state** = value currently stored inside the register || value currently expressed by internal circuits of the register 
+what memory are we talking about ? 
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719080259659.png" alt="image-20200719080259659" style="zoom:50%;" />
+>  types of memory : 
+>
+> - main 
+> - secondary
+> - volatile vs non-volatile
+>
+> ram => stores data on which program operates and also the instructions which are the blocks of the program itself
 
-* 👁️‍🗨️ Reading the state 
-  * probing out
-* ✍️ Writing the state 
-  * set in = new Value()
-  * set load = 1 
-  * in next cycle the out will be = new Value()
+take a 1-bit register and put them next to each other ➡️ 16 bit register 
+
+**state** = value currently stored inside the register || value currently expressed by internal circuits of the register (illusion of storage)
+
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609084344/memory-Page-7_iuycn1.png"  />
+
+```
+READ STATE = probe OUT of register
+WRITE STATE = SET LOAD = 1 && SET IN = New Val()
+```
 
 **💿Ram** ➡️  **sequential chip** of n addressable registers with addresses from 0 to n-1
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719081056811.png" alt="image-20200719081056811" style="zoom:50%;" />
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719081809677.png" alt="image-20200719081809677" style="zoom:33%;" />
 
-⚠️ see little triangle means clock dependent thus a sequential  chip 
-⚠️at any T time only one register in ram is selected this is why we have to specify an **address** 
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609085287/memory-Page-6_cndyth.png" width=600 />
+
+at any T time only one register in ram is selected this is why we have to specify an **address** 
 $$
 \text{k width in bits of address input: } k = log_2n\text{ bits}\\
-\text{eg ram with 8 registers require 4 bit addresses}
+\text{eg ram with 8 registers require 3 bit addresses}
 $$
 
 
-* 👁️‍🗨️ Reading the RAM state
 
-  * set address to desired register address i
-  * probe out of the ram unit
+```
+READ RAM STATE = SET address to register && address i && probe OUT of register
+WRITE STATE = SET address to register && SET LOAD = 1 && SET IN = New Val()
+```
 
-* ✍️ Writing the RAM state 
+we will build the following RAM units 
 
-  * set address to desired register address i
-  * set in = new Value()
-  * set load = 1 
-  * in next cycle the state of register i will be = new Value() && out will emit this new Value() so just probe out
+<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719082630938.png" alt="image-20200719082630938" style="zoom:44%;" />
 
-  
-
-  we will build the following RAM units 
-
-  
-
-  <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719082630938.png" alt="image-20200719082630938" style="zoom:44%;" />
-
-  
-
-  ## 4. Counter chips
+## 4. Counter chips
 
 i have robot and i want it to make brownies. 
 i write a program for the robot to follow a recipe.
