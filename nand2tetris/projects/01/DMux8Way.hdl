@@ -32,3 +32,15 @@ CHIP DMux8Way {
     And(a=sel[2],b=out7,out=g);
     And(a=sel[2],b=out8,out=h);
 }
+
+
+    // DMux(in=in, sel=sel[2], a=inForFirstFour, b=inForLastFour);
+
+    // DMux(in=inForFirstFour, sel=sel[1], a=inForFirstTwoOfFirstFour, b=inForLastTwoOfFirstFour); // 0xx
+    // DMux(in=inForLastFour, sel=sel[1], a=inForFirstTwoOfLastFour, b=inForLastTwoOfLastFour); //1xx
+
+    // DMux(in=inForFirstTwoOfFirstFour, sel=sel[0], a=b, b=a); // 00x 
+    // DMux(in=inForLastTwoOfFirstFour, sel=sel[0], a=c, b=d);  // 01x 
+    
+    // DMux(in=inForFirstTwoOfLastFour, sel=sel[0], a=e, b=f); // 10x 
+    // DMux(in=inForLastTwoOfLastFour, sel=sel[0], a=g, b=h);  // 11x 

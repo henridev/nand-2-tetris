@@ -5,7 +5,7 @@ why do we need ⌚
 ```python
 # 👉 use same hardware over time
 for x in range(1,100)
-	a = x+1
+	a += 1
 # 👉 keep state 
 sum = 0 
 for x in range(1,100)
@@ -14,7 +14,7 @@ for x in range(1,100)
 
 idea behind our ⌚
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200718195532829.png" alt="image-20200718195532829" style="zoom:50%;" />
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1607932925/Untitled_Diagram_2_obdbfk.png"/>
 
 **Clock** -- in computer we have a master clock continuously alternating between 0-**tick** and 1-**tock** signals (usually implemented via an oscillator). Time between a tick and a tock is a **Cycle**, while each cycle represents one time unit. 
 
