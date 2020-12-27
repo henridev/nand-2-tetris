@@ -1,3 +1,5 @@
+# Week 3 - memory
+
 ## 1. Sequential logic
 
 why do we need ⌚
@@ -14,33 +16,19 @@ for x in range(1,100)
 
 idea behind our ⌚
 
-<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1607932925/Untitled_Diagram_2_obdbfk.png"/>
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609077615/memory_1_erbrgd.png" width=550/>
 
-**Clock** -- in computer we have a master clock continuously alternating between 0-**tick** and 1-**tock** signals (usually implemented via an oscillator). Time between a tick and a tock is a **Cycle**, while each cycle represents one time unit. 
 
-➡️ in a time unit itself nothing changes  
-
-eg. take a not gate over time 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200718195744421.png" alt="image-20200718195744421" style="zoom:50%;" />
-
-in the first cycle (T = 1) our input is 1 so output is 0 for (T = 1)
-in the second cycle (T = 2) our input is 0 so output is 1 for (T = 2)
-etc....
-
-**Delays** ➡️ it takes some time for signals to gat to the correct levels so we do not consider first part of a cycle (grey area). The very end of the cycle is what we view as the real **state**
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200718200328138.png" alt="image-20200718200328138" style="zoom:50%;" />
 
 
 
 **Combinational logic**
-👉 compute functions only dependent on combinations of their inputs 
+👉 functions only dependent on combinations of their inputs 
 👉 output is there immediately 
-❌ they don't support maintaining state although there functionalities are very useful  
+❌ they don't support maintaining state although their functionalities are  useful  
 
 **Sequential logic**
-👉 compute functions only dependent on time
+👉 functions dependent on time
 👉 output dependent on input provided earlier
 ✔️ can support state 
 $$
@@ -48,31 +36,30 @@ $$
 \text{Sequential: }out[t]=fun(in[t-1])\\
 \text{Sequential: }state[t]=fun(state[t-1])\\
 $$
-while for combinatorial logic the output at  T depends just on the input at time T 
-for sequential logic the output at at T depends on the input from previous clock cycle T-1
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609078600/memory-Page-2_diqiml.png" />
 
-<div style="margin: 0 auto;text-align: center">
-    <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200718201019266.png" alt="image-20200718201019266" style="zoom:33%;" /> VS 
-    <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200718201032080.png" alt="image-20200718201032080" style="zoom:33%;" />
-</div>
+while for combinatorial logic the output at  T depends just on the input at time T  for sequential logic the output at at T depends on the input from previous clock cycle T-1
 
-what if we want in and out to be same locations in hardware? we create a state as we go along never remembering and always moving based on previous result 
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200718201412444.png" alt="image-20200718201412444" style="zoom:33%;" />
+what if we want in and out to be same locations in hardware? we create a state as we go along never remembering and always moving based on previous result.
+
+
 
 ## 2. flip-flops chips implementing sequential logic 
 
 💿 **remember state**
 
-- we need something that can **move 1bit info in T-1 to T**
-- we need something that can **flip between** **remember / 0** and **remember / 1** 
-- thus we call this **flipflops**
+- we need something that can **move 1-bit info in T-1 to T**
+- we need something that can **remember / 0** and **remember / 1** 
+- thus we call this **flip-flops**
 
 **💿 Data flip-flop**
 
 at any point in time T a dff will output the value that was in at time T-1. Look also at the mini triangle which signifies that the chip depend on a clock and thus can remember.
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719054242372.png" alt="image-20200719054242372" style="zoom:50%;" />
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609079380/memory-Page-3_weume3.png" style="zoom:65%;" />
+
+
 
 **💿 from remembering a bit to remembering everything**
 
