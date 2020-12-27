@@ -127,10 +127,6 @@ READ RAM STATE = SET address to register && address i && probe OUT of register
 WRITE STATE = SET address to register && SET LOAD = 1 && SET IN = New Val()
 ```
 
-we will build the following RAM units 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719082630938.png" alt="image-20200719082630938" style="zoom:44%;" />
-
 ## 4. Counter chips
 
 i have robot and i want it to make brownies. 
@@ -149,37 +145,25 @@ our three possible instructions are
 
 in order to realize this abstraction we build a **counter chip**
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719083501895.png" alt="image-20200719083501895" style="zoom:50%;" />
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609086314/memory-Page-8_xnyfbf.png"/>
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200719083603355.png" alt="image-20200719083603355" style="zoom:50%;" />
-
-## 5. Implementation 
-
-- 1 bit register 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200802132425706.png" alt="image-20200802132425706" style="zoom:67%;" />
-
-* 16-bit register 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200802132520356.png" alt="image-20200802132520356" style="zoom:67%;" />
+```
+if(reset[t]===1) out[t+1] = 0
+else if(load[t]===1) out[t+1] = in[t]
+else if(inc[t]===1) out[t+1] = out[t] + 1
+else out[t+1] = out[t]
+```
 
 
 
-* 16-bit register 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200802132520356.png" alt="image-20200802132520356" style="zoom:67%;" />
-
-* ram 
 
 
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200802132803651.png" alt="image-20200802132803651" style="zoom:67%;" />
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200802132936043.png" alt="image-20200802132936043" style="zoom:67%;" />
+16 bit register : can be built from multiple one bit 
 
+8 register  ram :  feed in value to all registers simultaneously | use muxes and dmuxes to select correct register for a certain read / write operation 
 
+ram can be built by grouping together smaller rams | adresses are binary values with two logical fields one for the the rampart and one for the register
 
-* counter 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200802133044036.png" alt="image-20200802133044036" style="zoom:50%;" />
-
+program counter 
