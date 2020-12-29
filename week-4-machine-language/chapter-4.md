@@ -1,244 +1,168 @@
-
-
 # Machine languages 
+
+> to build a computer system we need to design a **low-level machine language**, or **instruction set** with it the computer can be instructed to do various things. This instruction set can already be designed before we actually build a computer. (we could write a program which that emulates the yet-to-be-built computer and then emulate the execution of programs written in the new machine language.) 
+
+> Taking a similar approach, in this module we assume that the Hack computer and machine language have been built, and write some low-level programs using the Hack machine language. We will then use a supplied CPU Emulator (a computer program) to test and execute our programs. This experience will give you a taste of low-level programming, as well as a solid hands-on overview of the Hack computer platform.
 
 ##  1. Overview 
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810063109653.png" alt="image-20200810063109653" style="zoom:70%;" />
-
-<u>3 element necessary to get hardware to execute a program</u> 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810063155673.png" alt="image-20200810063155673" style="zoom:80%;" />
-
-1. **what** does each **instruction** mean? (eg. 100100 means add)
-
-2. **when** do perform the **instruction**? (eg. we are at instruction 99 next instruction is 100)
-
-3. **where** do we operate on ? (eg. operate on memory location 200)
-
-in reality people normally write high level code which will be compiled into machine language 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810063406464.png" alt="image-20200810063406464" style="zoom:67%;" />
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609219650/memory-Page-9_inqzip.png" />
 
 
 
-<u>Mnemonics</u>
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810063525064.png" alt="image-20200810063525064" style="zoom:80%;" />
-
-* instructions in ML are always bit sequences (hard to read)
-* mnemonic form of the instruction would be easier in this case just say ADD 
-* we can actually write in the mnemonic form if we use an Assembler language which is able to convert it to bit-form 
-
-<u>Symbols</u>
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810063556821.png" alt="image-20200810063556821" style="zoom:80%;" />
-
-## 2. 	Elements of machine language 
-
-### :one: **what** does each **instruction** mean? -- operations in ML
-
-➡️ corresponding to what is implemented in hardware (arithmetic operations / logical operations / flow control)
-
-differences between ML 
-
-- richness of set of operations 
-- data types 
-
-### :two: **where** do we operate on ?  -- addressing 
-
-accessing memory is expensive 
-
-	- long address 
-	- compared to operations in cpu getting info from memory takes quite long 
-
-:heavy_check_mark: solution - **memory hierarchy**   
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810064007598.png" alt="image-20200810064007598" style="zoom:80%;" />
-
-* smaller memory easier to access
-  * smaller addresses
-  * fewer of them = faster access 
-* larger memory
-  * memory gets bigger
-  * accessing takes longer 
-
-### :three: Registers
-
-cpu's often have a few easily accessible registers, their number and functions being essential in machine language 
-
-types of usages of registers in main memory
-
-- data storage
-- address storage  (which part of the bigger memory to access)
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810064321913.png" alt="image-20200810064321913" style="zoom:75%;" />
+## 2. Elements of machine language 
 
 
+a machine language specifies the interface between hardware and software 
 
-### :four: Input / output 
+I. which operations does it support ?
+
+II. what is data operated on ?
+
+III. how is the program controlled ? 
+
+I. **machine operations**  = what is implemented in hardware 
+
+- arithemetic operations
+- logical operations
+- flow control (think about program control chip)
+
+> operations and datatypes can be different depending on the machine language. 
+
+II. **adressing**
+
+because what we will work on can be found in memory, it can often take some time and resources to
+access these resources. 
+
+- long addresses
+- loading time of memory data into cpu
+
+**memory hierarchy** to mitigate the problem above 
+
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609223318/memory-Page-10_1_jiqbf8.png" />
+
+
+Input / output 
 
 * cpu has protocols to interact with them - these are defined in **drivers**
 * **memory mapping** = a method of interaction (eg. mem location 12 hold last direction of mouse movement, mem location 21 tells the printer which paper to use)
 
-### :five: flow control
+III. **flow control**
 
-normally instructions happen in sequence 
+normally instructions are sequential
 
 - but sometimes we unconditionally  need to jump to other locations in a loop for example
--  but sometimes we conditionally need to jump to other locations in a if statement for example
+- but sometimes we conditionally need to jump to other locations in a if statement for example
 
 ## 3. the hack machine language
 
- <div style="margin:0 auto; text-align:center">
-     <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810064806858.png" alt="image-20200803175006223" style="zoom:80%;" />
-     <div>
-         overview of our computer
-     </div>
- </div>
+
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609225089/memory-Page-11_q2ywa1.png" alt="image-20200803175006223" style="zoom:80%;" />
 
 
-:one: hardware:
+> busses allow us to move data from location x to location y
 
-* our atomic form of information will be 16bit 
-* our data-memory / ram consists of 16bit registers 
-* our instruction-memory / rom consist of 16bit registers 
-* CPU - actually performs the 16bit instructions (mostly via an ALU)
-* busses allow us to move data from location x to location y
-
-:two: software: to actually control this hardware machine we use software aka our machine / assembly code :arrow_right: **hack program** sequence of instructions written in hack ML 
-
-2 categories of instructions 
-
-- 16bit A-instructions
-- 16bit C-instructions 
-
- :three: control: 
-
-* write set of 16bit number (hack program)
-* load the program into the rom a register 
-
-:four: registers: 
-
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810064947452.png" alt="image-20200810064947452" style="zoom:80%;" />
-
-**syntax :writing_hand: and semantics :book:**
+**syntax and semantics**
 
 * **a-instruction** 
   * syntax: `@value` - value is non negative constant or symbol referring to a non negative constant 
   * semantics: 
     * register a becomes value
-    * RAM[A] becomes selected RAM register :arrow_right: ​M value 
+    * RAM[A] becomes selected RAM register => ​M value 
   * `@21` 
     * a register is now 21 
     * RAM[21] becomes our RAM / data-memory register M 
-  * set ram[100] to -1 
-  * `@100`
-    * `M=-1`
-  
+
+```
+# example set ram[100] to -1 
+@100
+M=-1
+``` 
 * **c-instruction** 
 
   * syntax: `dest= comp;jump`- both dest and jump are optional
 
-    * possible computations <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810065317585.png" alt="image-20200810065317585" style="zoom:80%;" />
-
-    * possible destinations ![image-20200810065344582](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810065344582.png)
-
-    * jump ![image-20200810065413462](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810065413462.png)
-
-      
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609225837/memory-Page-12_a0tvvr.png">
 
   * semantics:
 
     * first we compute something
-    * store the computation :vs: jump to other instruction in the program 
+    * store the computation result in DEST 
+    * if comp jump 0 === true => jump to other instruction stored at ROM[A] 
 
-  * `@21` - a register is now 21 and RAM[21] becomes our RAM register M 
+```
+# register d to -1`
+D=-1
 
-  * set  `register d to -1`  
+# ram[300] to d register -1
+@300
+M=D-1
 
-    * `D=-1`
+# `if D-1===0` jump to instruction in ROM[56]
+@56
+D-1; JEQ
 
-  * set `ram[300] to d register -1`
+# unconditional jump
+0; JMP
+```
 
-    * `@300` when i want to use the memory i must use an a instruction to select the register of interest selects as M ram[300]
-    * `M=D-1`
-
-  *  `if D-1===0` jump to instruction in ROM[56]
-
-    * `@56` a is set to 56 this means M wil be at RAM[56]
-    * `D-1; JEQ `
 
 ## 4. the hack language specification 
 
-two syntax variations for the same semantics:  ![image-20200810065920023](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810065920023.png)
+two syntax variations for the same semantics:
+
+- symbolic
+- binary
 
 
-
-<u>a-instructions</u>
+a-instructions
 
 * symbol syntax `@value`
 * binary syntax `0value` - zero is an operation code which specifies that it is an a-instruction 
 
-<u>c-instructions</u>
+```
+# set a register to 21
+@21
+0000 0000 0001 0101 
+```
+
+c-instructions
 
 * symbol syntax `dest=comp;jump`
-* binary syntax `1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3` - zero specifies that it is an a-instruction 
+* binary syntax `1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3` 
   * opcode 1 shows it is a c-instruction 
   * two one's not used 
   * a - c6 - which computation do i want ?
   * d - destination
   * j - jump condition 
 
-![image-20200810070406912](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810070406912.png)
-
-
-
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609226961/memory-Page-12_1_gggahr.png" alt="image-20200810070449968" style="zoom:87%;" />
 
 
  ## 5. Input / output devices 
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810070449968.png" alt="image-20200810070449968" style="zoom:87%;" />
 
-we either get data from or display data to the user 
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609230996/memory-Page-12_2_qu9bwo.png" alt="image-20200810070449968" style="zoom:87%;" />
 
-<u>How to control a display via bits</u>
-
-![image-20200810070526788](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810070526788.png)
-
-* the **screen memory map** is the reference for our display every x ms the screen will refresh based upon values found in the screen memory map 
-
-* we have a total of 131072 pixels 
-* and 8192 registers of 16bits also gives us 131072 values to work with 
-
-* we can only access memory in busses of 16 bits not just one bit - read write will always be 16 bit operations
-* busses 0 to 31 represent the top line of our display 
-* 8k chip will represent our screen memory map and this is part of the larger data memory map 
-
-![image-20200810070621100](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810070621100.png)
 
 ## 6. Hack programming 
 
- <div style="margin:0 auto; text-align:center">
-     <img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810070905848.png" alt="image-20200803175006223" style="zoom:80%;" />
-     <div>
-         hack programming language
-     </div>
- </div>
-<ol>
-    <li>registers and memory</li>
-    <li>branching</li>
-    <li>variabels</li>
-    <li>iteration</li>
-    <li>pointers</li>
-    <li>input / output</li>
-</ol>
+
+aspects of low level programming include :
+
+- working with registers and memory
+- branching
+- variables 
+- iteration
+- pointers
+- IO
+
 
 ### I. Registers and memory 
 
-<img src="C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200810071753412.png" alt="image-20200810071753412" style="zoom:100%;" />
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609231619/memory-Page-13_phza2n.png" alt="image-20200810071753412" style="zoom:100%;" />
 
-DAM :arrow_right: data register / address - data register / selected memory register ​(A has side effect that it sets selected M)
+
 
 ``` assembly
 // --- examples of basic operations ---
@@ -278,13 +202,10 @@ M=D
 
 @0
 D=M // D = RAM[0]
-
 @1
 D=D+M // D = D + RAM[0]
-
 @2
 M=D // RAM[2] = D
-
 
 // --- virtual signals as better styling ---
 
@@ -305,19 +226,16 @@ M=D
 
 **build in symbols for hack machine language**
 
-![image-20200811075130130](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200811075130130.png)
-
 - R's - virtual registers
 - Screen and Kbd - base addresses of io memory maps
 - remainder - used in implementing hack vm see part 2
 
 ### II. Branching / variables / iteration 
 
-:computer: ​ ​if then, while, do while ... in ML we only have goto  
+​if then, while, do while ... in ML we only have goto  
 
-<u>**Branching**</u>
+**Branching**
 
-![image-20200811080226318](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200811080226318.png)
 
 ```assembly
 // Program: Signum.asm
@@ -334,10 +252,10 @@ M=0
 @10
 0;JMP
 
-@R1 // 8th line
+@R1 (8th line)
 M=1
 
-@10 // 10th line
+@10 (10th line)
 0;JMP
 ```
 
