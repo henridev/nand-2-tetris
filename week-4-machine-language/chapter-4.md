@@ -260,9 +260,10 @@ M=1
 ```
 
 ```assembly
-// better is to use @LABEL 
+// better is to use @LABEL instead of using @(line number)
 // it translates to @n 
 // n being instruction number where we find the LABEL DECLARATION
+// now we have syntaxtic sugar @R @LABEL instead of always using @NUMBER
 
 @R0
 D=M
@@ -285,17 +286,20 @@ M=1
 0;JMP
 ```
 
-**Contract:**
+Contract:
 
 - label declarations don't get translated
 - each ref to label is replaced with the ref number at which the label declaration is found
 
 
 
-<u>**Variables**</u>
+**Variables**
 
-![image-20200811081113698](C:\Users\henri\AppData\Roaming\Typora\typora-user-images\image-20200811081113698.png)
+= take a register which is available (temp then refers to that particular register)
 
+> ! make sure it has no corresponding label declaration
+
+> variables are allocated to RAM starting from address 16
 ```assembly
 // Program: flip.asm
 // Computes: flips the values of RAM[0] and RAM[1]
@@ -330,12 +334,7 @@ M=D
 // each occurence of @temp will translate into @n
 ```
 
-**Contract:**
-
-- a ref to a symbol without corresponding label declaration means it is a **reference variable**
-- variables are allocated to RAM starting from address 16
-
-**<u>Iteration</u>**
+**Iteration**
 
 ```assembly
 // Program: Sum1toN.asm
@@ -399,9 +398,109 @@ M=0
 
 ### III. Pointers / IO
 
+<img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609237725/memory-Page-14_ikv4p6.png"/>
+
+```assembly
+// for(i=0; i<n; i++){
+//  arr[i] = -1
+// }
+// assume array starts on address 100 and has length of 10 
+
+@16 
+D=A
+@ARR
+M=D
+
+@100
+D=100
+@n
+M=0
+
+@i
+M=0
+
+(LOOP)
+// if i === 0 goto end
+@i
+D=M
+@n
+D=D-M
+@END
+D:JEQ
 
 
+// RAM[arr+i] = -1
+@ARR
+D=M // save start of arr address
+@i
+A=D+M // take the current indexed address
+M=-1
+
+// increment A
+@i
+M=M+1
+
+@LOOP
+0;JMP
+
+(END)
+@END
+0;JMP
+```
 
 
+**pointers** = variabels that store memory addresses (@ARR, @i above)
+
+> when we access a location using a pointer it is in the form of `A=D+M`
+> set adress register to something specific
+
+**IO**
+
+```asm
+// Program: Rectangle.asm
+// Draw's filled rectangle on top left corner of screen
+// it has base width of 16 and height of RAM[0]
+// init vars: height = RAM[0], i = 0, addr = SCREEN,  
+
+@R0
+D=M
+@height
+M=D
+
+@SCREEN
+D=M
+@addr
+M=D
+
+@i
+M=0
+
+(LOOP)
+@i
+D=M
+@height
+D=D-M
+@END
+D;JGT
+
+@addr
+A=M //value in M used to go to right address
+M=-1 //RAM[addres set before]=1111 1111 1111 1111 
+
+@i
+M=M+1
+@32D=A
+@addr
+M=D+M // move to next row
+@LOOP
+0;JMP
+
+(END)
+@END
+0;JMP
+```
 
 
+> multiplication means do a for loop in which you add the first number to itself
+
+> probe keyboard if robe is not 0 then blacken screen | work with pointers (A register)
