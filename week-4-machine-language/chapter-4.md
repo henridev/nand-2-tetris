@@ -77,7 +77,7 @@ normally instructions are sequential
 # example set ram[100] to -1 
 @100
 M=-1
-``` 
+```
 * **c-instruction** 
 
   * syntax: `dest= comp;jump`- both dest and jump are optional
@@ -140,7 +140,6 @@ c-instructions
 
 
  ## 5. Input / output devices 
-
 
 <img src="https://res.cloudinary.com/dri8yyakb/image/upload/v1609230996/memory-Page-12_2_qu9bwo.png" alt="image-20200810070449968" style="zoom:87%;" />
 
@@ -232,7 +231,7 @@ M=D
 
 ### II. Branching / variables / iteration 
 
-​if then, while, do while ... in ML we only have goto  
+if then, while, do while ... in ML we only have goto  
 
 **Branching**
 
@@ -468,7 +467,7 @@ D=M
 M=D
 
 @SCREEN
-D=M
+D=A
 @addr
 M=D
 
@@ -489,7 +488,8 @@ M=-1 //RAM[addres set before]=1111 1111 1111 1111
 
 @i
 M=M+1
-@32D=A
+@32
+	D=A
 @addr
 M=D+M // move to next row
 @LOOP
