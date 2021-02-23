@@ -13,23 +13,23 @@
 ## 2. Elements of machine language 
 
 
-a machine language specifies the interface between hardware and software 
+machine language specifies the interface between hardware and software 
 
-I. which operations does it support ?
+- which operations does it support ?
 
-II. what is data operated on ?
+- what data is operated on ?
 
-III. how is the program controlled ? 
+- how is the program controlled ? 
 
 I. **machine operations**  = what is implemented in hardware 
 
-- arithemetic operations
+- arithmetic operations
 - logical operations
 - flow control (think about program control chip)
 
-> operations and datatypes can be different depending on the machine language. 
+> operations and data-types can be different depending on the machine language. 
 
-II. **adressing**
+II. **addressing**
 
 because what we will work on can be found in memory, it can often take some time and resources to
 access these resources. 
@@ -503,4 +503,4 @@ M=D+M // move to next row
 
 > multiplication means do a for loop in which you add the first number to itself
 
-> probe keyboard if robe is not 0 then blacken screen | work with pointers (A register)
+> probe keyboard if probe is not 0 then blacken screen | work with pointers (A register)
